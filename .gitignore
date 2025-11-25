@@ -1,0 +1,79 @@
+# -------------------------
+# .NET / Visual Studio
+# -------------------------
+## Build folders
+/bin/
+/obj/
+/out/
+/publish/
+
+## Visual Studio / Rider / VSCode
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Resharper
+_ReSharper*/
+*.DotSettings.user
+
+## NuGet packages
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+## EF, migrations build artefacts
+**/Migrations/**/bin/
+**/Migrations/**/obj/
+
+# -------------------------
+# Runtime / tooling
+# -------------------------
+## Logs, temp
+*.log
+logs/
+*.tmp
+*.temp
+*.cache
+
+## Local secrets / settings
+secrets.json
+local.settings.json
+appsettings.Development.json
+.env
+.env.*
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Database files
+*.db
+*.sqlite
+*.mdf
+*.ldf
+
+# -------------------------
+# Node (if you use frontend packages in repo)
+# -------------------------
+node_modules/
+
+# -------------------------
+# Test results / coverage
+# -------------------------
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+coverage.*.json
+
+# -------------------------
+# Misc
+# -------------------------
+*.bak
+*.backup
+*.log.*
