@@ -77,3 +77,30 @@ coverage.*.json
 *.bak
 *.backup
 *.log.*
+
+
+
+# Build artifacts
+bin/
+obj/
+out/
+
+# Rider / VS
+.vs/
+.idea/
+
+# User specific
+*.user
+*.suo
+
+# Logs
+*.log
+
+# Build
+*.dll
+*.pdb
+*.exe
+*.mdb
+
+# Docker
+*.container
