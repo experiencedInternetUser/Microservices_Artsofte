@@ -5,9 +5,12 @@ Tasks - CRUD содержит несколько сущностей (при создании/хранении учитываютс€ Ass
 
 
 # Ѕыстрый старт:
-
+```
 docker compose build
+
 docker compose up
+```
 
 «атем открыть в браузере
+
 http://localhost:5000/swagger/index.html
