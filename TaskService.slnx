@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Api/Api.csproj" />
+  <Project Path="CoreLib/CoreLib.csproj" />
+  <Project Path="Dal/Dal.csproj" />
+  <Project Path="Logic/Logic.csproj" />
+</Solution>

@@ -1,0 +1,84 @@
+# -------------------------
+# .NET / Visual Studio
+# -------------------------
+## Build folders
+bin/
+obj/
+out/
+publish/
+
+## Visual Studio / Rider / VSCode
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+## Resharper / Rider
+_ReSharper*/
+*.DotSettings.user
+
+## NuGet
+*.nupkg
+packages/
+project.lock.json
+project.fragment.lock.json
+
+## EF Migrations (build artefacts only)
+**/Migrations/**/bin/
+**/Migrations/**/obj/
+
+# -------------------------
+# Runtime / tooling
+# -------------------------
+*.log
+logs/
+*.tmp
+*.temp
+*.cache
+
+# Local secrets
+secrets.json
+local.settings.json
+appsettings.Development.json
+.env
+.env.*
+
+## OS files
+.DS_Store
+Thumbs.db
+
+# Database
+*.db
+*.sqlite
+*.mdf
+*.ldf
+
+# -------------------------
+# Node
+# -------------------------
+node_modules/
+
+# -------------------------
+# Tests / coverage
+# -------------------------
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+coverage.*.json
+
+# -------------------------
+# Build artifacts
+# -------------------------
+*.dll
+*.pdb
+*.exe
+*.mdb
+
+# -------------------------
+# Docker
+# -------------------------
+*.container
