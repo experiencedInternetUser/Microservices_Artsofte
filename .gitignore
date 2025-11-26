@@ -2,10 +2,10 @@
 # .NET / Visual Studio
 # -------------------------
 ## Build folders
-/bin/
-/obj/
-/out/
-/publish/
+bin/
+obj/
+out/
+publish/
 
 ## Visual Studio / Rider / VSCode
 .vs/
@@ -16,31 +16,30 @@
 *.userosscache
 *.sln.docstates
 
-## Resharper
+## Resharper / Rider
 _ReSharper*/
 *.DotSettings.user
 
-## NuGet packages
+## NuGet
 *.nupkg
 packages/
 project.lock.json
 project.fragment.lock.json
 
-## EF, migrations build artefacts
+## EF Migrations (build artefacts only)
 **/Migrations/**/bin/
 **/Migrations/**/obj/
 
 # -------------------------
 # Runtime / tooling
 # -------------------------
-## Logs, temp
 *.log
 logs/
 *.tmp
 *.temp
 *.cache
 
-## Local secrets / settings
+# Local secrets
 secrets.json
 local.settings.json
 appsettings.Development.json
@@ -51,19 +50,19 @@ appsettings.Development.json
 .DS_Store
 Thumbs.db
 
-## Database files
+# Database
 *.db
 *.sqlite
 *.mdf
 *.ldf
 
 # -------------------------
-# Node (if you use frontend packages in repo)
+# Node
 # -------------------------
 node_modules/
 
 # -------------------------
-# Test results / coverage
+# Tests / coverage
 # -------------------------
 TestResults/
 coverage/
@@ -72,35 +71,14 @@ coverage/
 coverage.*.json
 
 # -------------------------
-# Misc
-# -------------------------
-*.bak
-*.backup
-*.log.*
-
-
-
 # Build artifacts
-bin/
-obj/
-out/
-
-# Rider / VS
-.vs/
-.idea/
-
-# User specific
-*.user
-*.suo
-
-# Logs
-*.log
-
-# Build
+# -------------------------
 *.dll
 *.pdb
 *.exe
 *.mdb
 
+# -------------------------
 # Docker
+# -------------------------
 *.container
