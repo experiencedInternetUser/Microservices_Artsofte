@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using User.Core.Entities;
+using UserEntity = User.Core.Entities.User;
+using RoleEntity = User.Core.Entities.Role;
+using ProfileEntity = User.Core.Entities.Profile;
 
 namespace User.Infrastructure.Data
 {
@@ -7,14 +9,14 @@ namespace User.Infrastructure.Data
     {
         public UserDbContext(DbContextOptions<UserDbContext> opts) : base(opts) { }
 
-        public DbSet<User> Users => Set<User>();
-        public DbSet<Role> Roles => Set<Role>();
-        public DbSet<Profile> Profiles => Set<Profile>();
+        public DbSet<UserEntity> Users => Set<UserEntity>();
+        public DbSet<RoleEntity> Roles => Set<RoleEntity>();
+        public DbSet<ProfileEntity> Profiles => Set<ProfileEntity>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+            modelBuilder.Entity<UserEntity>().HasIndex(u => u.Email).IsUnique();
         }
     }
 }

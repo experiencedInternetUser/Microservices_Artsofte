@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using User.Core.Entities;
 using User.Core.Interfaces;
 using User.Infrastructure.Data;
+using RoleEntity = User.Core.Entities.Role;
 
 namespace User.Infrastructure.Repositories
 {
@@ -13,7 +13,7 @@ namespace User.Infrastructure.Repositories
         private readonly UserDbContext _db;
         public RoleRepository(UserDbContext db) => _db = db;
 
-        public async Task<Role> AddAsync(Role role)
+        public async Task<RoleEntity> AddAsync(RoleEntity role)
         {
             _db.Roles.Add(role);
             await _db.SaveChangesAsync();
@@ -26,11 +26,11 @@ namespace User.Infrastructure.Repositories
             if (e != null) { _db.Roles.Remove(e); await _db.SaveChangesAsync(); }
         }
 
-        public async Task<Role?> GetAsync(Guid id) => await _db.Roles.FindAsync(id);
+        public async Task<RoleEntity?> GetAsync(Guid id) => await _db.Roles.FindAsync(id);
 
-        public async Task<IEnumerable<Role>> ListAsync() => await _db.Roles.ToListAsync();
+        public async Task<IEnumerable<RoleEntity>> ListAsync() => await _db.Roles.ToListAsync();
 
-        public async Task UpdateAsync(Role role)
+        public async Task UpdateAsync(RoleEntity role)
         {
             _db.Roles.Update(role);
             await _db.SaveChangesAsync();

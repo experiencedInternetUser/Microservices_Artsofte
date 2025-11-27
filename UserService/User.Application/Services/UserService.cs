@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using User.Core.DTOs;
-using User.Core.Entities;
 using User.Core.Interfaces;
 using System.Security.Cryptography;
 using System.Text;
+
+// Псевдоним, чтобы явно использовать тип из User.Core.Entities и избежать конфликта с namespace "User"
+using UserEntity = User.Core.Entities.User;
 
 namespace User.Application.Services
 {
@@ -29,7 +31,9 @@ namespace User.Application.Services
         {
             // simple hash (demo). Replace with PBKDF2/Argon2 in prod.
             var hash = ComputeHash(req.Password);
-            var user = new User { Email = req.Email, PasswordHash = hash };
+
+            // Используем псевдоним UserEntity для явного типа
+            var user = new UserEntity { Email = req.Email, PasswordHash = hash };
             var created = await _repo.AddAsync(user);
             return new UserDto(created.Id, created.Email, created.CreatedAt);
         }
