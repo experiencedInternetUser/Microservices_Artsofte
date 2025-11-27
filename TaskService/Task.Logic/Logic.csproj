@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
-    <ProjectReference Include="..\Dal\Dal.csproj" />
+    <ProjectReference Include="..\\Task.Core\\CoreLib.csproj" />
+    <ProjectReference Include="..\\Task.Dal\\Dal.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -12,3 +12,4 @@
   </PropertyGroup>
 
 </Project>
+

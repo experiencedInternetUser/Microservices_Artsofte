@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Task.Api/">
+    <Project Path="Task.Api/Api.csproj" />
+  </Folder>
+  <Folder Name="/Task.Core/">
+    <Project Path="Task.Core/CoreLib.csproj" />
+  </Folder>
+  <Folder Name="/Task.Dal/">
+    <Project Path="Task.Dal/Dal.csproj" />
+  </Folder>
+  <Folder Name="/Task.Logic/">
+    <Project Path="Task.Logic/Logic.csproj" />
+  </Folder>
+</Solution>
