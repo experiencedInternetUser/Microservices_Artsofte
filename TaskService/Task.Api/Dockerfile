@@ -1,15 +1,16 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
-COPY ["TaskService/Api/Api.csproj", "TaskService/Api/"]
-COPY ["TaskService/CoreLib/CoreLib.csproj", "TaskService/CoreLib/"]
-COPY ["TaskService/Dal/Dal.csproj", "TaskService/Dal/"]
-COPY ["TaskService/Logic/Logic.csproj", "TaskService/Logic/"]
+COPY ["TaskService/Task.Api/Api.csproj", "TaskService/Task.Api/"]
+COPY ["TaskService/Task.Core/CoreLib.csproj", "TaskService/Task.Core/"]
+COPY ["TaskService/Task.Dal/Dal.csproj", "TaskService/Task.Dal/"]
+COPY ["TaskService/Task.Logic/Logic.csproj", "TaskService/Task.Logic/"]
 
-RUN dotnet restore "TaskService/Api/Api.csproj"
+RUN dotnet restore "TaskService/Task.Api/Api.csproj"
 
 COPY . .
-WORKDIR /src/TaskService/Api
+
+WORKDIR /src/TaskService/Task.Api
 RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
