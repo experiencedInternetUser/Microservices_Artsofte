@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="User.Api/User.Api.csproj" />
+  <Project Path="User.Application/User.Application.csproj" />
+  <Project Path="User.Core/User.Core.csproj" />
+  <Project Path="User.Infrastructure/User.Infrastructure.csproj" />
+</Solution>
