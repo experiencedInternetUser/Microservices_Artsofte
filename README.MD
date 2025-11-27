@@ -1,6 +1,7 @@
 # TASK 3 
 
-реализовал микросервис User Service с архитектурой Onion с контролерами UsersController, RolesController, ProfilesController
+реализовал микросервис User Service с архитектурой Onion
+с контролерами UsersController, RolesController, ProfilesController
 
 Для его поднятия:
 
