@@ -1,27 +1,27 @@
-# TASK 3 
+п»ї# TASK 3 
 
-реализовал микросервис User Service с архитектурой Onion
-с контролерами UsersController, RolesController, ProfilesController
+СЂРµР°Р»РёР·РѕРІР°Р» РјРёРєСЂРѕСЃРµСЂРІРёСЃ User Service СЃ Р°СЂС…РёС‚РµРєС‚СѓСЂРѕР№ Onion
+СЃ РєРѕРЅС‚СЂРѕР»РµСЂР°РјРё UsersController, RolesController, ProfilesController
 
-Для его поднятия:
+Р”Р»СЏ РµРіРѕ РїРѕРґРЅСЏС‚РёСЏ:
 
 ```
 docker compose build user-api
 docker compose up user-api
 ```
 
-Затем открыть в браузере
+Р—Р°С‚РµРј РѕС‚РєСЂС‹С‚СЊ РІ Р±СЂР°СѓР·РµСЂРµ
 
 http://localhost:5001/swagger/index.html
 
 
-# Полное поднятие всего приложения
+# РџРѕР»РЅРѕРµ РїРѕРґРЅСЏС‚РёРµ РІСЃРµРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ
 
 ```
 docker compose build
 docker compose up
 ```
 
-Затем открыть в браузере
+Р—Р°С‚РµРј РѕС‚РєСЂС‹С‚СЊ РІ Р±СЂР°СѓР·РµСЂРµ
 
 http://localhost:5000/swagger/index.html
