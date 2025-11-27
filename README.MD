@@ -1,13 +1,23 @@
-Task Service реализован с помощью трехслойной архитекруты (API, DAL, BL)
+# TASK 3 
 
-Реализованы Projects и Labels CRUD.
-Tasks - CRUD содержит несколько сущностей (при создании/хранении учитываются Assignments и TaskLabels)
+реализовал микросервис User Service с архитектурой Onion с контролерами UsersController, RolesController, ProfilesController
+
+Для его поднятия:
+
+```
+docker compose build user-api
+docker compose up user-api
+```
+
+Затем открыть в браузере
+
+http://localhost:5001/swagger/index.html
 
 
-# Быстрый старт:
+# Полное поднятие всего приложения
+
 ```
 docker compose build
-
 docker compose up
 ```
 
