@@ -1,6 +1,8 @@
 <Solution>
-  <Project Path="Api/Api.csproj" />
-  <Project Path="CoreLib/CoreLib.csproj" />
-  <Project Path="Dal/Dal.csproj" />
-  <Project Path="Logic/Logic.csproj" />
+  <Folder Name="/TaskService/">
+    <Project Path="TaskService/Api/Api.csproj" />
+    <Project Path="TaskService/CoreLib/CoreLib.csproj" />
+    <Project Path="TaskService/Dal/Dal.csproj" />
+    <Project Path="TaskService/Logic/Logic.csproj" />
+  </Folder>
 </Solution>

@@ -1,12 +1,11 @@
-version: "3.8"
 services:
   api:
     build:
       context: .
-      dockerfile: Api/Dockerfile
+      dockerfile: TaskService/Api/Dockerfile
     image: tasktracker-api:local
     ports:
-      - "5000:80"   
+      - "5000:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
     restart: unless-stopped
