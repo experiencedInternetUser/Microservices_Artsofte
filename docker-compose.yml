@@ -1,12 +1,34 @@
-version: "3.8"
 services:
-  api:
+  task-api:
     build:
       context: .
-      dockerfile: Api/Dockerfile
-    image: tasktracker-api:local
+      dockerfile: TaskService/Task.Api/Dockerfile
+    image: tasktracker-task-api:local
+    container_name: tasktracker_task_api
     ports:
-      - "5000:80"   
+      - "5000:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
     restart: unless-stopped
+    networks:
+      - task-net
+
+  user-api:
+    build:
+      context: .
+      dockerfile: UserService/User.Api/Dockerfile
+    image: tasktracker-user-api:local
+    container_name: tasktracker_user_api
+    ports:
+      - "5001:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80 
+    restart: unless-stopped
+    networks:
+      - task-net
+
+networks:
+  task-net:
+    driver: bridge

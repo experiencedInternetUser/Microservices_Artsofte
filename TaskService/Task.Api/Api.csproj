@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
-    <ProjectReference Include="..\Logic\Logic.csproj" />
-    <ProjectReference Include="..\Dal\Dal.csproj" />
-    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
+    <ProjectReference Include="..\\Task.Logic\\Logic.csproj" />
+    <ProjectReference Include="..\\Task.Dal\\Dal.csproj" />
+    <ProjectReference Include="..\\Task.Core\\CoreLib.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,3 +17,4 @@
   </PropertyGroup>
 
 </Project>
+

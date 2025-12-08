@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\CoreLib\CoreLib.csproj" />
-    <ProjectReference Include="..\Dal\Dal.csproj" />
+    <ProjectReference Include="..\User.Core\User.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
