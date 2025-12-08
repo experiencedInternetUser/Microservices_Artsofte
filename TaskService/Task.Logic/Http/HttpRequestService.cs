@@ -11,7 +11,7 @@ using Logic.Trace;
 
 namespace Logic.Http
 {
-    internal class HttpRequestService : IHttpRequestService
+    public class HttpRequestService : IHttpRequestService
     {
         private readonly IHttpConnectionService _httpConnectionService;
         private readonly IEnumerable<ITraceWriter> _traceWriters;
@@ -111,8 +111,6 @@ namespace Logic.Http
                         if (body is byte[] bytes) return new ByteArrayContent(bytes);
                         throw new ArgumentException("Body must be byte[] for binary content");
                     }
-                case ContentType.ApplicationXml:
-                case ContentType.TextPlain:
                 default:
                     var str = body.ToString() ?? string.Empty;
                     return new StringContent(str, Encoding.UTF8, MediaTypeNames.Text.Plain);

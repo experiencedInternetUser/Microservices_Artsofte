@@ -2,7 +2,7 @@ using System;
 
 namespace User.Api.Trace
 {
-    internal class TraceIdAccessor : ITraceReader, ITraceWriter
+    public class TraceIdAccessor : ITraceReader, ITraceWriter
     {
         private string? _value;
         public string Name => "TraceId";

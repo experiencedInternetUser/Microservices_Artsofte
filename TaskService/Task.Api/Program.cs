@@ -1,4 +1,3 @@
-// файл: TaskService/Task.Api/Program.cs
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,9 +20,10 @@ builder.Services.AddSingleton<CoreLib.Interfaces.IProjectRepository>(sp => sp.Ge
 builder.Services.AddSingleton<CoreLib.Interfaces.ILabelRepository>(sp => sp.GetRequiredService<InMemoryLabelRepository>());
 builder.Services.AddSingleton<CoreLib.Interfaces.ITaskRepository>(sp => sp.GetRequiredService<InMemoryTaskRepository>());
 
-// TraceId accessor (scoped per request)
-builder.Services.AddScoped<ITraceReader, TraceIdAccessor>();
-builder.Services.AddScoped<ITraceWriter>(sp => sp.GetRequiredService<ITraceReader>() as ITraceWriter);
+// TraceId accessor (scoped per request) - регистрируем конкретный тип и интерфейсы через него
+builder.Services.AddScoped<TraceIdAccessor>();
+builder.Services.AddScoped<ITraceReader>(sp => sp.GetRequiredService<TraceIdAccessor>());
+builder.Services.AddScoped<ITraceWriter>(sp => sp.GetRequiredService<TraceIdAccessor>());
 
 // Http services
 builder.Services.AddSingleton<IHttpConnectionService, HttpConnectionService>();
@@ -32,7 +32,6 @@ builder.Services.AddScoped<IHttpRequestService, HttpRequestService>();
 // Services
 builder.Services.AddScoped<Logic.Services.IProjectService, Logic.Services.ProjectService>();
 builder.Services.AddScoped<Logic.Services.ILabelService, Logic.Services.LabelService>();
-// NOTE: TaskService now needs IHttpRequestService as dependency Ч ensure constructor updated
 builder.Services.AddScoped<Logic.Services.ITaskService, Logic.Services.TaskService>();
 
 builder.Services.AddControllers();

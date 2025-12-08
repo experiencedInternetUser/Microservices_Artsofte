@@ -1,3 +1,4 @@
+// UserService/User.Api/Program.cs
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,9 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 // DbContext (InMemory for demo)
 builder.Services.AddDbContext<UserDbContext>(opt => opt.UseInMemoryDatabase("UserDb"));
 
-// Trace accessor
-builder.Services.AddScoped<ITraceReader, TraceIdAccessor>();
-builder.Services.AddScoped<ITraceWriter>(sp => sp.GetRequiredService<ITraceReader>() as ITraceWriter);
+// Trace accessor (scoped)
+builder.Services.AddScoped<TraceIdAccessor>();
+builder.Services.AddScoped<ITraceReader>(sp => sp.GetRequiredService<TraceIdAccessor>());
+builder.Services.AddScoped<ITraceWriter>(sp => sp.GetRequiredService<TraceIdAccessor>());
 
 // Repositories
 builder.Services.AddScoped<User.Core.Interfaces.IUserRepository, UserRepository>();
@@ -40,7 +42,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// use Trace middleware
+// Trace middleware Ч ставим рано чтобы читать вход€щий header
 app.UseMiddleware<TraceMiddleware>();
 
 app.UseRouting();

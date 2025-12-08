@@ -2,7 +2,7 @@ using System;
 
 namespace Logic.Trace
 {
-    internal class TraceIdAccessor : ITraceReader, ITraceWriter
+    public class TraceIdAccessor : ITraceReader, ITraceWriter
     {
         private string? _value;
         public string Name => "TraceId";

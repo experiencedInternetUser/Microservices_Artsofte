@@ -13,9 +13,9 @@ namespace User.Api.Middleware
 
         public async Task InvokeAsync(HttpContext context, ITraceReader traceReader)
         {
-            if (context.Request.Headers.TryGetValue(TraceHeader, out var v))
+            if (context.Request.Headers.TryGetValue(TraceHeader, out var vals))
             {
-                traceReader.WriteValue(v.ToString());
+                traceReader.WriteValue(vals.ToString());
             }
             else
             {
@@ -24,10 +24,7 @@ namespace User.Api.Middleware
 
             context.Response.OnStarting(() =>
             {
-                if (!context.Response.Headers.ContainsKey(TraceHeader))
-                {
-                    context.Response.Headers.Add(TraceHeader, traceReader.GetValue());
-                }
+                context.Response.Headers[TraceHeader] = traceReader.GetValue();
                 return Task.CompletedTask;
             });
 

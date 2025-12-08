@@ -22,14 +22,17 @@ namespace Api.Middleware
                 traceReader.WriteValue(null);
             }
 
-            // make TraceId available in response headers too for convenience
             context.Response.OnStarting(() =>
             {
                 if (!context.Response.Headers.ContainsKey(TraceHeader))
                 {
-                    context.Response.Headers.Add(TraceHeader, traceReader.GetValue());
+                    context.Response.Headers[TraceHeader] = traceReader.GetValue();
                 }
-                return System.Threading.Tasks.Task.CompletedTask;
+                else
+                {
+                    context.Response.Headers[TraceHeader] = traceReader.GetValue();
+                }
+                return Task.CompletedTask;
             });
 
             await _next(context);

@@ -1,11 +1,10 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Http;
 
 namespace Logic.Http
 {
-    internal class HttpConnectionService : IHttpConnectionService
+    public class HttpConnectionService : IHttpConnectionService
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
