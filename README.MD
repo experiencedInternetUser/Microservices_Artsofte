@@ -1,19 +1,11 @@
-﻿# TASK 3 
+﻿# TASK 4
 
-реализовал микросервис User Service с архитектурой Onion
-с контролерами UsersController, RolesController, ProfilesController
+TaskService теперь асинхронно вызывает UserService
 
-Для его поднятия:
+В TaskService/Task.Logic/HTTP реализовал HttpService
+В TaskService/Task.Logic/Trace реализовал TraceId
 
-```
-docker compose build user-api
-docker compose up user-api
-```
-
-Затем открыть в браузере
-
-http://localhost:5001/swagger/index.html
-
+В UserService/User.Api/Trace реализовал scoped-доступ к TraceId
 
 # Полное поднятие всего приложения
 
@@ -24,4 +16,5 @@ docker compose up
 
 Затем открыть в браузере
 
-http://localhost:5000/swagger/index.html
+Энд-поинты TaskService: http://localhost:5000/swagger/index.html
+Энд-поинты UserService: http://localhost:5001/swagger/index.html
