@@ -4,8 +4,7 @@ TaskService теперь асинхронно вызывает UserService
 
 
 
-В TaskService/Task.Logic/HTTP реализовал HttpService
-
+В TaskService/Task.Logic/HTTP реализовал HttpService <br>
 В TaskService/Task.Logic/Trace реализовал TraceId
 
 
@@ -23,4 +22,5 @@ docker compose up
 Затем открыть в браузере
 
 Энд-поинты TaskService: http://localhost:5000/swagger/index.html
+
 Энд-поинты UserService: http://localhost:5001/swagger/index.html
