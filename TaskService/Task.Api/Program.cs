@@ -1,12 +1,19 @@
+// файл: TaskService/Task.Api/Program.cs
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Dal.Repositories;
 using Logic.Services;
+using Logic.Http;
+using Logic.Trace;
+using Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// DI registrations
+// HTTP client factory
+builder.Services.AddHttpClient();
+
+// DI registrations for repositories (как было)
 builder.Services.AddSingleton<InMemoryProjectRepository>();
 builder.Services.AddSingleton<InMemoryLabelRepository>();
 builder.Services.AddSingleton<InMemoryTaskRepository>();
@@ -14,9 +21,18 @@ builder.Services.AddSingleton<CoreLib.Interfaces.IProjectRepository>(sp => sp.Ge
 builder.Services.AddSingleton<CoreLib.Interfaces.ILabelRepository>(sp => sp.GetRequiredService<InMemoryLabelRepository>());
 builder.Services.AddSingleton<CoreLib.Interfaces.ITaskRepository>(sp => sp.GetRequiredService<InMemoryTaskRepository>());
 
+// TraceId accessor (scoped per request)
+builder.Services.AddScoped<ITraceReader, TraceIdAccessor>();
+builder.Services.AddScoped<ITraceWriter>(sp => sp.GetRequiredService<ITraceReader>() as ITraceWriter);
+
+// Http services
+builder.Services.AddSingleton<IHttpConnectionService, HttpConnectionService>();
+builder.Services.AddScoped<IHttpRequestService, HttpRequestService>();
+
 // Services
 builder.Services.AddScoped<Logic.Services.IProjectService, Logic.Services.ProjectService>();
 builder.Services.AddScoped<Logic.Services.ILabelService, Logic.Services.LabelService>();
+// NOTE: TaskService now needs IHttpRequestService as dependency Ч ensure constructor updated
 builder.Services.AddScoped<Logic.Services.ITaskService, Logic.Services.TaskService>();
 
 builder.Services.AddControllers();
@@ -30,6 +46,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// Trace middleware must come early
+app.UseMiddleware<TraceMiddleware>();
 
 app.UseRouting();
 app.UseAuthorization();

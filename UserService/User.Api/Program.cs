@@ -5,11 +5,17 @@ using Microsoft.Extensions.Hosting;
 using User.Application.Services;
 using User.Infrastructure.Data;
 using User.Infrastructure.Repositories;
+using User.Api.Trace;
+using User.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // DbContext (InMemory for demo)
 builder.Services.AddDbContext<UserDbContext>(opt => opt.UseInMemoryDatabase("UserDb"));
+
+// Trace accessor
+builder.Services.AddScoped<ITraceReader, TraceIdAccessor>();
+builder.Services.AddScoped<ITraceWriter>(sp => sp.GetRequiredService<ITraceReader>() as ITraceWriter);
 
 // Repositories
 builder.Services.AddScoped<User.Core.Interfaces.IUserRepository, UserRepository>();
@@ -33,6 +39,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// use Trace middleware
+app.UseMiddleware<TraceMiddleware>();
 
 app.UseRouting();
 app.UseAuthorization();

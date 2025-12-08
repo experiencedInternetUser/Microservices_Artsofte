@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using CoreLib.DTOs;
 using CoreLib.Entities;
 using CoreLib.Interfaces;
+using Logic.Http;
+using System.Net.Http;
+using Logic.Trace;
 
 namespace Logic.Services
 {
@@ -21,11 +24,15 @@ namespace Logic.Services
     {
         private readonly ITaskRepository _taskRepo;
         private readonly ILabelRepository _labelRepo;
+        private readonly IHttpRequestService _httpRequestService;
+        private readonly ITraceWriter _traceWriter;
 
-        public TaskService(ITaskRepository taskRepo, ILabelRepository labelRepo)
+        public TaskService(ITaskRepository taskRepo, ILabelRepository labelRepo, IHttpRequestService httpRequestService, ITraceWriter traceWriter)
         {
             _taskRepo = taskRepo;
             _labelRepo = labelRepo;
+            _httpRequestService = httpRequestService;
+            _traceWriter = traceWriter;
         }
 
         public async Task<TaskDto> CreateAsync(CreateTaskRequest req)
@@ -60,6 +67,54 @@ namespace Logic.Services
                     {
                         task.TaskLabels.Add(new TaskLabel { TaskId = task.Id, LabelId = lid });
                     }
+                }
+            }
+
+            // --- ASYNC CALL TO UserService (service A -> user-api) ---
+            if (req.ReporterId.HasValue)
+            {
+                try
+                {
+                    var uri = new Uri($"http://user-api/api/v1/profiles/by-user/{req.ReporterId.Value}");
+                    var httpReq = new HttpRequestData
+                    {
+                        Method = HttpMethod.Get,
+                        Uri = uri
+                    };
+
+                    // send request; the request will include TraceId header automatically
+                    var resp = await _httpRequestService.SendRequestAsync<System.Text.Json.JsonElement>(httpReq);
+
+                    if (resp.IsSuccessStatusCode && resp.Body.ValueKind != System.Text.Json.JsonValueKind.Undefined)
+                    {
+                        // optionally process profile data; here — just log basic info to console for demo
+                        try
+                        {
+                            string? fullName = null;
+                            if (resp.Body.TryGetProperty("fullName", out var fnProp) && fnProp.ValueKind == System.Text.Json.JsonValueKind.String)
+                                fullName = fnProp.GetString();
+
+                            Console.WriteLine($"[TaskService] fetched reporter profile for {req.ReporterId}: fullName={fullName}; trace={_traceWriter.GetValue()}");
+                            // Optionally: store snapshot into task.Description or a dedicated Audit store
+                            if (!string.IsNullOrEmpty(fullName) && string.IsNullOrWhiteSpace(task.Description))
+                            {
+                                task.Description = $"Reporter name snapshot: {fullName}";
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("[TaskService] failed to parse profile response: " + ex.Message);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"[TaskService] profile not found or request failed for reporter {req.ReporterId}. Status: {resp.StatusCode}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // network errors shouldn't break task creation for MVP (depends on requirements)
+                    Console.WriteLine("[TaskService] error calling user-api: " + ex.Message);
                 }
             }
 
