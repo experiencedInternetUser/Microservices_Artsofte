@@ -2,6 +2,9 @@
   <Folder Name="/Task.Api/">
     <Project Path="Task.Api/Api.csproj" />
   </Folder>
+  <Folder Name="/Task.Contracts/">
+    <Project Path="Task.Contracts/Task.Contracts.csproj" />
+  </Folder>
   <Folder Name="/Task.Core/">
     <Project Path="Task.Core/CoreLib.csproj" />
   </Folder>
