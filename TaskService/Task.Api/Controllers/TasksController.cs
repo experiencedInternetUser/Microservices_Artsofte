@@ -49,5 +49,31 @@ namespace Api.Controllers
             await _service.DeleteAsync(id);
             return NoContent();
         }
+
+        [HttpPost("saga/coordinator")]
+        public async Task<IActionResult> CreateViaCoordinator(
+            [FromServices] IPublishEndpoint publish)
+        {
+            await publish.Publish(new CreateTaskRequested(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                "Coordinator Task"
+            ));
+
+            return Accepted();
+        }
+
+        [HttpPost("saga/orchestrator")]
+        public async Task<IActionResult> CreateViaOrchestrator(
+            [FromServices] IPublishEndpoint publish)
+        {
+            await publish.Publish(new StartTaskOrchestration(
+                Guid.NewGuid(),
+                Guid.NewGuid(),
+                "Orchestrator Task"
+            ));
+
+            return Accepted();
+        }
     }
 }

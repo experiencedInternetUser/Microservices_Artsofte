@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\\Task.Core\\CoreLib.csproj" />
     <ProjectReference Include="..\\Task.Dal\\Dal.csproj" />
+	<ProjectReference Include="..\Task.Contracts\Task.Contracts.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

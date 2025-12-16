@@ -4,10 +4,14 @@
     <ProjectReference Include="..\\Task.Logic\\Logic.csproj" />
     <ProjectReference Include="..\\Task.Dal\\Dal.csproj" />
     <ProjectReference Include="..\\Task.Core\\CoreLib.csproj" />
+    <ProjectReference Include="..\Task.Contracts\Task.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="10.0.1" />
+	<PackageReference Include="MassTransit" Version="8.*" />
+	<PackageReference Include="MassTransit.RabbitMQ" Version="8.*" />
+	<PackageReference Include="MassTransit.AspNetCore" Version="8.*" />
   </ItemGroup>
 
   <PropertyGroup>
