@@ -1,43 +1,40 @@
 using MassTransit;
-using Task.Contracts.Saga;
+using System;
+using TaskService.Task.Contracts;
+using TaskService.Task.Core.Interfaces;
+using TaskEntity = TaskService.Task.Core.Entities.Task;
+using Task = System.Threading.Tasks.Task;
 
-namespace Logic.Saga.Orchestrator;
-
-public class TaskOrchestratorSaga : MassTransitStateMachine<TaskOrchestratorState>
+namespace TaskService.Task.Logic.Saga.Orchestrator
 {
-    public State CreatingTask { get; private set; }
-
-    public Event<StartTaskOrchestration> Start { get; private set; }
-    public Event<TaskCreatedResponse> TaskCreated { get; private set; }
-    public Event<UserValidated> UserValidated { get; private set; }
-
-    public TaskOrchestratorSaga()
+    public class TaskOrchestratorSaga : MassTransitStateMachine<TaskOrchestratorState>
     {
-        InstanceState(x => x.CurrentState);
+        public State Processing { get; private set; } = null!;
+        public Event<CreateTaskRequested> CreateRequested { get; private set; } = null!;
 
-        Event(() => Start, x => x.CorrelateById(m => m.Message.CorrelationId));
-        Event(() => TaskCreated, x => x.CorrelateById(m => m.Message.CorrelationId));
-        Event(() => UserValidated, x => x.CorrelateById(m => m.Message.CorrelationId));
+        public TaskOrchestratorSaga()
+        {
+            InstanceState(x => x.CurrentState);
 
-        Initially(
-            When(Start)
-                .Send(
-                    new Uri("queue:create-task"),
-                    ctx => new CreateTaskCommand(
-                        ctx.Instance.CorrelationId,
-                        ctx.Message.ProjectId,
-                        ctx.Message.Title
-                    )
-                )
-                .TransitionTo(CreatingTask)
-        );
+            Event(() => CreateRequested, x =>
+                x.CorrelateById(ctx => ctx.Message.TaskId));
 
-        During(CreatingTask,
-            When(TaskCreated)
-                .Then(ctx => ctx.Instance.TaskId = ctx.Message.TaskId)
-                .Finalize()
-        );
+            Initially(
+                When(CreateRequested)
+                    .ThenAsync(async ctx =>
+                    {
+                        // Здесь вызывается бизнес-логика
+                        // Реальная логика в consumer-е, не в saga
+                        await Task.CompletedTask;
+                    })
+                    .Publish(ctx => new TaskCreated
+                    {
+                        TaskId = ctx.Message.TaskId
+                    })
+                    .Finalize()
+            );
 
-        SetCompletedWhenFinalized();
+            SetCompletedWhenFinalized();
+        }
     }
 }

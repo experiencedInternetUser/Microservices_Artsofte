@@ -1,43 +1,50 @@
 using MassTransit;
-using Task.Contracts.Saga;
+using System;
+using TaskService.Task.Contracts;
 
-namespace Logic.Saga.Coordinator;
-
-public class TaskCreationSaga : MassTransitStateMachine<TaskCreationState>
+namespace TaskService.Task.Logic.Saga.Coordinator
 {
-    public State WaitingForTask { get; private set; }
-
-    public Event<CreateTaskRequested> CreateRequested { get; private set; }
-    public Event<TaskCreated> TaskCreated { get; private set; }
-    public Event<UserValidationFailed> UserFailed { get; private set; }
-
-    public TaskCreationSaga()
+    public class TaskCreationSaga : MassTransitStateMachine<TaskCreationState>
     {
-        InstanceState(x => x.CurrentState);
+        public State Creating { get; private set; } = null!;
 
-        Event(() => CreateRequested, x => x.CorrelateById(m => m.Message.CorrelationId));
-        Event(() => TaskCreated, x => x.CorrelateById(m => m.Message.CorrelationId));
-        Event(() => UserFailed, x => x.CorrelateById(m => m.Message.CorrelationId));
+        public Event<CreateTaskRequested> CreateRequested { get; private set; } = null!;
+        public Event<TaskCreated> TaskCreated { get; private set; } = null!;
+        public Event<TaskCreationFailed> TaskFailed { get; private set; } = null!;
 
-        Initially(
-            When(CreateRequested)
-                .TransitionTo(WaitingForTask)
-        );
+        public TaskCreationSaga()
+        {
+            InstanceState(x => x.CurrentState);
 
-        During(WaitingForTask,
-            When(TaskCreated)
-                .Then(ctx => ctx.Instance.TaskId = ctx.Message.TaskId)
-                .Finalize(),
+            Event(() => CreateRequested, x =>
+                x.CorrelateById(ctx => ctx.Message.TaskId));
 
-            When(UserFailed)
-                .ThenAsync(_ =>
-                {
-                    // compensation (например, лог или удаление задачи)
-                    return Task.CompletedTask;
-                })
-                .Finalize()
-        );
+            Event(() => TaskCreated, x =>
+                x.CorrelateById(ctx => ctx.Message.TaskId));
 
-        SetCompletedWhenFinalized();
+            Event(() => TaskFailed, x =>
+                x.CorrelateById(ctx => ctx.Message.TaskId));
+
+            Initially(
+                When(CreateRequested)
+                    .TransitionTo(Creating)
+                    .Publish(ctx => new CreateTaskRequested
+                    {
+                        TaskId = ctx.Message.TaskId,
+                        Title = ctx.Message.Title,
+                        UserId = ctx.Message.UserId
+                    })
+            );
+
+            During(Creating,
+                When(TaskCreated)
+                    .Finalize(),
+
+                When(TaskFailed)
+                    .Finalize()
+            );
+
+            SetCompletedWhenFinalized();
+        }
     }
 }

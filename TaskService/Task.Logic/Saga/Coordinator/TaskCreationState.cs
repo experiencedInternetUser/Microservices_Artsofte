@@ -1,10 +1,11 @@
 using MassTransit;
+using System;
 
-namespace Logic.Saga.Coordinator;
-
-public class TaskCreationState : SagaStateMachineInstance
+namespace TaskService.Task.Logic.Saga.Coordinator
 {
-    public Guid CorrelationId { get; set; }
-    public string CurrentState { get; set; } = null!;
-    public Guid TaskId { get; set; }
+    public class TaskCreationState : SagaStateMachineInstance
+    {
+        public Guid CorrelationId { get; set; }
+        public string CurrentState { get; set; } = string.Empty;
+    }
 }

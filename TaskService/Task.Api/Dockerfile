@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
 
+COPY ["TaskService/Task.Contracts/Task.Contracts.csproj", "TaskService/Task.Contracts/"]
 COPY ["TaskService/Task.Api/Api.csproj", "TaskService/Task.Api/"]
 COPY ["TaskService/Task.Core/CoreLib.csproj", "TaskService/Task.Core/"]
 COPY ["TaskService/Task.Dal/Dal.csproj", "TaskService/Task.Dal/"]

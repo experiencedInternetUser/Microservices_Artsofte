@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   task-api:
     build:
@@ -11,6 +13,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     restart: unless-stopped
+    depends_on:
+      - rabbitmq
     networks:
       - task-net
 
@@ -24,19 +28,22 @@ services:
       - "5001:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://+:80 
+      - ASPNETCORE_URLS=http://+:80
     restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    networks:
+      - task-net
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: tasktracker_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - task-net
 
 networks:
   task-net:
     driver: bridge
-
-rabbitmq:
-  image: rabbitmq:3-management
-  ports:
-    - "5672:5672"
-    - "15672:15672"
-  networks:
-    - task-net

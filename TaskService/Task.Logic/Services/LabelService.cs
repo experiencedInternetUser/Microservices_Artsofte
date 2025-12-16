@@ -1,56 +1,29 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoreLib.DTOs;
-using CoreLib.Entities;
-using CoreLib.Interfaces;
+using TaskService.Task.Core.Entities;
+using TaskService.Task.Core.Interfaces;
 
-namespace Logic.Services
+namespace TaskService.Logic.Services;
+
+public class LabelService
 {
-    public interface ILabelService
+    private readonly ILabelRepository _labelRepository;
+
+    public LabelService(ILabelRepository labelRepository)
     {
-        Task<LabelDto> CreateAsync(CreateLabelRequest req);
-        Task<LabelDto?> GetAsync(Guid id);
-        Task<IEnumerable<LabelDto>> ListAsync();
-        Task UpdateAsync(Guid id, UpdateLabelRequest req);
-        Task DeleteAsync(Guid id);
+        _labelRepository = labelRepository;
     }
 
-    public class LabelService : ILabelService
+    public async System.Threading.Tasks.Task<Label> GetByIdAsync(Guid id)
     {
-        private readonly ILabelRepository _repo;
-        public LabelService(ILabelRepository repo) => _repo = repo;
+        return await _labelRepository.GetByIdAsync(id);
+    }
 
-        public async Task<LabelDto> CreateAsync(CreateLabelRequest req)
-        {
-            var l = new Label { Name = req.Name, Color = req.Color };
-            var created = await _repo.AddAsync(l);
-            return new LabelDto(created.Id, created.Name, created.Color);
-        }
+    public async System.Threading.Tasks.Task CreateAsync(Label label)
+    {
+        await _labelRepository.AddAsync(label);
+    }
 
-        public async Task DeleteAsync(Guid id) => await _repo.DeleteAsync(id);
-
-        public async Task<LabelDto?> GetAsync(Guid id)
-        {
-            var l = await _repo.GetAsync(id);
-            if (l == null) return null;
-            return new LabelDto(l.Id, l.Name, l.Color);
-        }
-
-        public async Task<IEnumerable<LabelDto>> ListAsync()
-        {
-            var list = await _repo.ListAsync();
-            return list.Select(l => new LabelDto(l.Id, l.Name, l.Color));
-        }
-
-        public async Task UpdateAsync(Guid id, UpdateLabelRequest req)
-        {
-            var existing = await _repo.GetAsync(id);
-            if (existing == null) throw new KeyNotFoundException("Label not found");
-            if (req.Name != null) existing.Name = req.Name;
-            if (req.Color != null) existing.Color = req.Color;
-            await _repo.UpdateAsync(existing);
-        }
+    public async System.Threading.Tasks.Task DeleteAsync(Guid id)
+    {
+        await _labelRepository.DeleteAsync(id);
     }
 }
